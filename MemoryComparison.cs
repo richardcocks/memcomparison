@@ -25,16 +25,19 @@ public class MemoryComparison
         Array.Copy(first, second, Length);
     }
 
+    [Benchmark]
     public void MemCmp()
     {
         MemoryComparer.EqualsMemCmp(first, second);
     }
 
+    [Benchmark]
     public void Loop()
     {
         MemoryComparer.EqualsLoop(first, second);
     }
 
+    [Benchmark]
     public void SequenceEqual()
     {
         MemoryComparer.EqualsSequenceEqual(first, second);
