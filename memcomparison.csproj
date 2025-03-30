@@ -2,11 +2,18 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net481; net8.0</TargetFrameworks>
+    <TargetFrameworks>net481; net8.0; net9.0</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net481' ">
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
   </ItemGroup>
-
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net481' ">
+    <PackageReference Include="System.Memory" Version="4.6.2"/>
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.3"/>
+    <PackageReference Include="System.Reflection.Metadata" Version="9.0.3"/>
+  </ItemGroup>
 </Project>

@@ -4,15 +4,21 @@ using BenchmarkDotNet.Jobs;
 
 [SimpleJob(RuntimeMoniker.Net481, baseline: true)]
 [SimpleJob(RuntimeMoniker.Net80)]
+[SimpleJob(RuntimeMoniker.Net90)]
+[MemoryDiagnoser]
 public class MemoryComparison
 {
 
-    [Params(10, 1_024, 1_048_576)]
+    [Params(10, 1_024, 1_048_576, 1073741824)]
     public int Length { get; set; }
 
-    byte[] first;
-    byte[] second;
-
+#if NET481
+        byte[] first;
+        byte[] second;
+#else
+    byte[] first = null!;
+    byte[] second = null!;
+#endif
     [GlobalSetup]
     public void Setup()
     {
@@ -43,5 +49,9 @@ public class MemoryComparison
         MemoryComparer.EqualsSequenceEqual(first, second);
     }
 
-
+    [Benchmark]
+    public void Span()
+    {
+        MemoryComparer.EqualsSpan(first, second);
+    }
 }
